@@ -22,7 +22,9 @@ type TimingPoint = {
 
 const readFile = promisify(fs.readFile)
 
+const endLinePattern = /[\r\n]+/
 const sectionPattern = /\[([a-z]+)\]/i
+const commaPattern = /\s*,\s*/
 
 /** A representation of an .osu file */
 export class Chart {
@@ -33,7 +35,7 @@ export class Chart {
     const content = (await readFile(path)).toString()
 
     const lines = content
-      .split(/[\r\n]+/)
+      .split(endLinePattern)
       .map(line => line.trim())
       .filter(line => line.length > 0)
 
@@ -49,7 +51,7 @@ export class Chart {
       }
 
       if (currentSection === 'TimingPoints') {
-        const values = line.split(/\s*,\s*/).map(Number)
+        const values = line.split(commaPattern).map(Number)
 
         chart.timingPoints.push({
           offsetSeconds: values[0] / 1000,
@@ -64,7 +66,7 @@ export class Chart {
       }
 
       if (currentSection === 'HitObjects') {
-        const values = line.split(/\s*,\s*/)
+        const values = line.split(commaPattern)
 
         const bitTap = 0b00000001
         const bitLongNote = 0b10000000
