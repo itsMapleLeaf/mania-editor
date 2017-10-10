@@ -7,8 +7,6 @@ type Note = {
   length: number
 }
 
-type HitObjectType = 'tap' | 'long-note' | 'unknown'
-
 type TimingPoint = {
   offsetSeconds: number
   secondsPerBeat: number
@@ -82,23 +80,15 @@ export class Chart {
       } else if (currentSection === 'HitObjects') {
         const values = line.split(commaPattern)
 
-        const bitTap = 0b00000001
-        const bitLongNote = 0b10000000
-
-        const objectTypeMask = +values[3]
-
-        let objectType: HitObjectType = 'unknown'
-        if ((objectTypeMask & bitTap) > 0) objectType = 'tap'
-        if ((objectTypeMask & bitLongNote) > 0) objectType = 'long-note'
-
         const column = (+values[0] - 64) / 128
         const time = +values[2] / 1000
-        const length = 0 // TODO
+        const holdEnd = parseInt(values[5], 10) / 1000
+        const holdLength = holdEnd === 0 ? 0 : holdEnd - time
 
         chart.notes.push({
           column,
           time,
-          length,
+          length: holdLength,
         })
       } else {
         const keyValueMatch = line.match(keyValuePattern)

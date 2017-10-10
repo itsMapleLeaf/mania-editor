@@ -89,7 +89,12 @@ export class App {
         this.canvas.height -
         height
 
-      this.context.fillStyle = 'white'
+      const holdLength = note.length * noteSpacing * scrollSpeed
+
+      this.context.fillStyle = 'rgba(255, 255, 255, 0.5)'
+      this.context.fillRect(x, y + height / 2, width, -holdLength)
+
+      this.context.fillStyle = 'rgba(255, 255, 255, 1)'
       this.context.fillRect(x, y, width, height)
     })
   }
