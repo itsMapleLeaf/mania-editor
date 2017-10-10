@@ -10,14 +10,14 @@ type Note = {
 type HitObjectType = 'tap' | 'long-note' | 'unknown'
 
 type TimingPoint = {
-  offset: number
-  millisPerBeat: number
+  offsetSeconds: number
+  secondsPerBeat: number
   meter: number
   sampleType: number
   sampleSet: number
   volume: number
-  isInherited: number
-  isKiai: number
+  isInherited: boolean
+  isKiai: boolean
 }
 
 const readFile = promisify(fs.readFile)
@@ -52,14 +52,14 @@ export class Chart {
         const values = line.split(/\s*,\s*/).map(Number)
 
         chart.timingPoints.push({
-          offset: values[0],
-          millisPerBeat: values[1],
+          offsetSeconds: values[0] / 1000,
+          secondsPerBeat: values[1] / 1000,
           meter: values[2],
           sampleType: values[3],
           sampleSet: values[4],
           volume: values[5],
-          isInherited: values[6],
-          isKiai: values[7],
+          isInherited: values[6] === 0,
+          isKiai: values[7] === 1,
         })
       }
 
