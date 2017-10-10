@@ -4,7 +4,7 @@ import { resolve } from 'path'
 
 let win: Electron.BrowserWindow
 
-app.on('ready', () => {
+function createWindow() {
   win = new BrowserWindow({
     width: 1280,
     height: 720,
@@ -16,17 +16,9 @@ app.on('ready', () => {
   win.on('ready-to-show', () => {
     win.show()
   })
+}
 
-  if (process.argv.includes('--dev')) {
-    console.info('Currently in dev mode')
-
-    fs.watch(resolve(__dirname, 'renderer.bundle.js'), () => {
-      win.reload()
-    })
-
-    win.webContents.openDevTools()
-  }
-
+function createAppMenu() {
   const appMenu = Menu.buildFromTemplate([
     {
       label: 'File',
@@ -42,4 +34,24 @@ app.on('ready', () => {
   ])
 
   Menu.setApplicationMenu(appMenu)
-})
+}
+
+function setupDevMode() {
+  if (process.argv.includes('--dev')) {
+    console.info('Currently in dev mode')
+
+    fs.watch(resolve(__dirname, 'renderer.bundle.js'), () => {
+      win.reload()
+    })
+
+    win.webContents.openDevTools()
+  }
+}
+
+function init() {
+  createWindow()
+  createAppMenu()
+  setupDevMode()
+}
+
+app.on('ready', init)
