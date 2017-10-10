@@ -1,5 +1,6 @@
 import * as electron from 'electron'
 import { Chart } from './Chart'
+import { store } from './store'
 
 /** spacing of notes in pixels per second */
 const noteSpacing = 100
@@ -39,6 +40,7 @@ export class App {
 
   async loadChart(path: string) {
     this.chart = await Chart.loadFromFile(path)
+    store.set('lastBeatmap', path)
     this.renderChart()
   }
 
