@@ -1,3 +1,9 @@
+import { ipcRenderer } from 'electron'
 import { App } from './App'
 
-new App().init()
+const app = new App()
+app.init()
+
+ipcRenderer.on('open-dialog', () => {
+  app.showOpenDialog()
+})

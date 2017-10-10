@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 import * as fs from 'fs'
 import { resolve } from 'path'
 
@@ -24,4 +24,20 @@ app.on('ready', () => {
       win.reload()
     })
   }
+
+  const appMenu = Menu.buildFromTemplate([
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Open...',
+          click: () => {
+            win.webContents.send('open-dialog')
+          },
+        },
+      ],
+    },
+  ])
+
+  Menu.setApplicationMenu(appMenu)
 })

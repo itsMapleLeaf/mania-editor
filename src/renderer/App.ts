@@ -34,6 +34,14 @@ export class App {
     }
   }
 
+  async showOpenDialog() {
+    const files = electron.remote.dialog.showOpenDialog({
+      filters: [{ name: 'osu! chart', extensions: ['osu'] }],
+    })
+    const chartPath = files ? files[0] : ''
+    await this.loadChart(chartPath)
+  }
+
   private handleMouseWheel(event: WheelEvent) {
     this.scrollOffset -= event.deltaY / 100
     this.render()
@@ -47,14 +55,6 @@ export class App {
   private sizeViewToWindow() {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
-  }
-
-  private async showOpenDialog() {
-    const files = electron.remote.dialog.showOpenDialog({
-      filters: [{ name: 'osu! chart', extensions: ['osu'] }],
-    })
-    const chartPath = files ? files[0] : ''
-    await this.loadChart(chartPath)
   }
 
   private async loadChart(path: string) {
