@@ -12,6 +12,7 @@ type HitObjectType = 'tap' | 'long-note' | 'unknown'
 type TimingPoint = {
   offsetSeconds: number
   secondsPerBeat: number
+  scrollSpeed: number
   meter: number
   sampleType: number
   sampleSet: number
@@ -52,15 +53,26 @@ export class Chart {
 
       if (currentSection === 'TimingPoints') {
         const values = line.split(commaPattern).map(Number)
+        const lastTimingPoint =
+          chart.timingPoints[chart.timingPoints.length - 1]
+
+        const isInherited = values[6] === 0
+
+        const scrollSpeed = isInherited ? 1 / (values[1] * -1 * 0.01) : 1
+
+        const secondsPerBeat = isInherited
+          ? lastTimingPoint.secondsPerBeat
+          : values[1] / 1000
 
         chart.timingPoints.push({
+          secondsPerBeat,
+          scrollSpeed,
+          isInherited,
           offsetSeconds: values[0] / 1000,
-          secondsPerBeat: values[1] / 1000,
           meter: values[2],
           sampleType: values[3],
           sampleSet: values[4],
           volume: values[5],
-          isInherited: values[6] === 0,
           isKiai: values[7] === 1,
         })
       }

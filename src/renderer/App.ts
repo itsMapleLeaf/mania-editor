@@ -4,7 +4,7 @@ import { Chart } from './Chart'
 /** spacing of notes in pixels per second */
 const noteSpacing = 100
 
-const scrollSpeed = 2
+const scrollSpeed = 10
 
 const scrollDirection = -1
 
@@ -13,11 +13,20 @@ export class App {
   private context = this.canvas.getContext('2d')!
   private chart = new Chart()
 
+  private scrollOffset = 0
+
   constructor() {
     this.canvas.style.backgroundColor = 'black'
 
     window.addEventListener('resize', () => this.sizeViewToWindow())
     this.sizeViewToWindow()
+
+    window.addEventListener('mousewheel', event => this.handleMouseWheel(event))
+  }
+
+  handleMouseWheel(event: WheelEvent) {
+    this.scrollOffset -= event.deltaY / 100
+    this.renderChart()
   }
 
   async showOpenDialog() {
@@ -30,8 +39,20 @@ export class App {
 
   async loadChart(path: string) {
     this.chart = await Chart.loadFromFile(path)
+    this.renderChart()
+  }
+
+  private renderChart() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+    this.context.save()
+
+    this.context.translate(0, this.scrollOffset * noteSpacing)
+
     this.renderNotes()
     this.renderTimingPoints()
+
+    this.context.restore()
   }
 
   private renderNotes() {
@@ -57,10 +78,22 @@ export class App {
       const y =
         tp.offsetSeconds * noteSpacing * scrollSpeed * scrollDirection +
         this.canvas.height
+
       const color = tp.isInherited ? 'green' : 'red'
 
+      const text = tp.isInherited
+        ? tp.scrollSpeed.toFixed(2) + 'x'
+        : 60 / tp.secondsPerBeat + ''
+
       this.context.fillStyle = color
+
       this.context.fillRect(x, y, width, height)
+
+      this.context.font = '16pt Roboto'
+      this.context.textAlign = 'left'
+      this.context.textBaseline = 'middle'
+
+      this.context.fillText(text, x + width + 10, y)
     })
   }
 
