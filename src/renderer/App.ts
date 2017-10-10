@@ -42,6 +42,7 @@ export class App {
     this.chart = await Chart.loadFromFile(path)
     store.set('lastBeatmap', path)
     this.renderChart()
+    console.log(this.chart.metadata)
   }
 
   private renderChart() {
@@ -55,6 +56,8 @@ export class App {
     this.renderTimingPoints()
 
     this.context.restore()
+
+    this.renderChartInfo()
   }
 
   private renderNotes() {
@@ -97,6 +100,19 @@ export class App {
 
       this.context.fillText(text, x + width + 10, y)
     })
+  }
+
+  private renderChartInfo() {
+    this.context.fillStyle = 'white'
+    this.context.font = '16pt Roboto'
+    this.context.textAlign = 'left'
+    this.context.textBaseline = 'top'
+
+    const { Title, Artist } = this.chart.metadata.Metadata
+
+    const text = `${Artist} - ${Title}`
+
+    this.context.fillText(text, 10, 10)
   }
 
   private sizeViewToWindow() {
