@@ -41,6 +41,7 @@ export class Chart {
       .filter(line => line.length > 0)
 
     let currentSection = ''
+    let keyCount = 0
 
     const chart = new Chart()
 
@@ -80,7 +81,8 @@ export class Chart {
       } else if (currentSection === 'HitObjects') {
         const values = line.split(commaPattern)
 
-        const column = (+values[0] - 64) / 128
+        const columnWidth = 512 / keyCount
+        const column = (+values[0] - columnWidth / 2) / columnWidth
         const time = +values[2] / 1000
         const holdEnd = parseInt(values[5], 10) / 1000
         const holdLength = holdEnd === 0 ? 0 : holdEnd - time
@@ -95,6 +97,10 @@ export class Chart {
         if (keyValueMatch) {
           const [, key, value] = keyValueMatch
           chart.metadata[currentSection][key] = value
+
+          if (currentSection === 'Difficulty' && key === 'CircleSize') {
+            keyCount = +value
+          }
         }
       }
     })
