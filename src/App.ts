@@ -112,7 +112,7 @@ export class App {
 
       const text = tp.isInherited
         ? tp.scrollSpeed.toFixed(2) + 'x'
-        : 60 / tp.secondsPerBeat + ''
+        : (60 / tp.secondsPerBeat).toFixed(2) + ''
 
       this.context.fillStyle = color
 
