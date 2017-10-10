@@ -40,10 +40,12 @@ export class Chart {
       .map(line => line.trim())
       .filter(line => line.length > 0)
 
-    let currentSection = ''
-    let keyCount = 0
-
     const chart = new Chart()
+
+    const timingLines = [] as string[]
+    const hitObjectLines = [] as string[]
+
+    let currentSection = ''
 
     lines.forEach(line => {
       const sectionMatch = line.match(sectionPattern)
@@ -55,54 +57,65 @@ export class Chart {
       }
 
       if (currentSection === 'TimingPoints') {
-        const values = line.split(commaPattern).map(Number)
-        const lastTimingPoint =
-          chart.timingPoints[chart.timingPoints.length - 1]
-
-        const isInherited = values[6] === 0
-
-        const scrollSpeed = isInherited ? 1 / (values[1] * -1 * 0.01) : 1
-
-        const secondsPerBeat = isInherited
-          ? lastTimingPoint.secondsPerBeat
-          : values[1] / 1000
-
-        chart.timingPoints.push({
-          secondsPerBeat,
-          scrollSpeed,
-          isInherited,
-          offsetSeconds: values[0] / 1000,
-          meter: values[2],
-          sampleType: values[3],
-          sampleSet: values[4],
-          volume: values[5],
-          isKiai: values[7] === 1,
-        })
-      } else if (currentSection === 'HitObjects') {
-        const values = line.split(commaPattern)
-
-        const columnWidth = 512 / keyCount
-        const column = (+values[0] - columnWidth / 2) / columnWidth
-        const time = +values[2] / 1000
-        const holdEnd = parseInt(values[5], 10) / 1000
-        const holdLength = holdEnd === 0 ? 0 : holdEnd - time
-
-        chart.notes.push({
-          column,
-          time,
-          length: holdLength,
-        })
-      } else {
-        const keyValueMatch = line.match(keyValuePattern)
-        if (keyValueMatch) {
-          const [, key, value] = keyValueMatch
-          chart.metadata[currentSection][key] = value
-
-          if (currentSection === 'Difficulty' && key === 'CircleSize') {
-            keyCount = +value
-          }
-        }
+        timingLines.push(line)
+        return
       }
+
+      if (currentSection === 'HitObjects') {
+        hitObjectLines.push(line)
+        return
+      }
+
+      const keyValueMatch = line.match(keyValuePattern)
+      if (keyValueMatch) {
+        const [, key, value] = keyValueMatch
+        chart.metadata[currentSection][key] = value
+      }
+    })
+
+    const keyCount = +chart.metadata.Difficulty.CircleSize
+
+    timingLines.forEach(line => {
+      const values = line.split(commaPattern).map(Number)
+      const lastTimingPoint = chart.timingPoints[chart.timingPoints.length - 1]
+
+      const isInherited = values[6] === 0
+
+      const scrollSpeed = isInherited ? 1 / (values[1] * -1 * 0.01) : 1
+
+      const secondsPerBeat = isInherited
+        ? lastTimingPoint.secondsPerBeat
+        : values[1] / 1000
+
+      chart.timingPoints.push({
+        secondsPerBeat,
+        scrollSpeed,
+        isInherited,
+        offsetSeconds: values[0] / 1000,
+        meter: values[2],
+        sampleType: values[3],
+        sampleSet: values[4],
+        volume: values[5],
+        isKiai: values[7] === 1,
+      })
+    })
+
+    hitObjectLines.forEach(line => {
+      const values = line.split(commaPattern)
+
+      const columnWidth = 512 / keyCount
+      const column = (+values[0] - columnWidth / 2) / columnWidth
+
+      const time = +values[2] / 1000
+
+      const holdEnd = parseInt(values[5], 10) / 1000
+      const holdLength = holdEnd === 0 ? 0 : holdEnd - time
+
+      chart.notes.push({
+        column,
+        time,
+        length: holdLength,
+      })
     })
 
     return chart
