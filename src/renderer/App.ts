@@ -20,17 +20,21 @@ export class App {
     this.canvas.style.backgroundColor = 'black'
 
     window.addEventListener('resize', () => this.sizeViewToWindow())
-    this.sizeViewToWindow()
-
     window.addEventListener('mousewheel', event => this.handleMouseWheel(event))
+
+    this.sizeViewToWindow()
   }
 
-  handleMouseWheel(event: WheelEvent) {
-    this.scrollOffset -= event.deltaY / 100
-    this.renderChart()
+  init() {
+    const lastBeatmap = store.get('lastBeatmap')
+    if (lastBeatmap) {
+      this.loadChart(lastBeatmap)
+    } else {
+      this.showOpenDialog()
+    }
   }
 
-  async showOpenDialog() {
+  private async showOpenDialog() {
     const files = electron.remote.dialog.showOpenDialog({
       filters: [{ name: 'osu! chart', extensions: ['osu'] }],
     })
@@ -38,11 +42,16 @@ export class App {
     await this.loadChart(chartPath)
   }
 
-  async loadChart(path: string) {
+  private async loadChart(path: string) {
     this.chart = await Chart.loadFromFile(path)
     store.set('lastBeatmap', path)
     this.renderChart()
     console.log(this.chart.metadata)
+  }
+
+  private handleMouseWheel(event: WheelEvent) {
+    this.scrollOffset -= event.deltaY / 100
+    this.renderChart()
   }
 
   private renderChart() {
