@@ -23,6 +23,8 @@ app.on('ready', () => {
     fs.watch(resolve(__dirname, 'renderer.bundle.js'), () => {
       win.reload()
     })
+
+    win.webContents.openDevTools()
   }
 
   const appMenu = Menu.buildFromTemplate([
