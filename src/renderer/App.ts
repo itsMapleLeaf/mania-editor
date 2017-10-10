@@ -127,9 +127,9 @@ export class App {
     this.context.textAlign = 'left'
     this.context.textBaseline = 'top'
 
-    const { Title, Artist } = this.chart.metadata.Metadata
+    const { Title, Artist, Version } = this.chart.metadata.Metadata
 
-    const text = `${Artist} - ${Title}`
+    const text = `${Artist} - ${Title} [${Version}]`
 
     this.context.fillText(text, 10, 10)
   }
