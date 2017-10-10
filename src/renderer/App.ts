@@ -19,7 +19,7 @@ export class App {
   constructor() {
     this.canvas.style.backgroundColor = 'black'
 
-    window.addEventListener('resize', () => this.sizeViewToWindow())
+    window.addEventListener('resize', _ => this.handleWindowResize())
     window.addEventListener('mousewheel', event => this.handleMouseWheel(event))
 
     this.sizeViewToWindow()
@@ -34,6 +34,21 @@ export class App {
     }
   }
 
+  private handleMouseWheel(event: WheelEvent) {
+    this.scrollOffset -= event.deltaY / 100
+    this.render()
+  }
+
+  private handleWindowResize() {
+    this.sizeViewToWindow()
+    this.render()
+  }
+
+  private sizeViewToWindow() {
+    this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight
+  }
+
   private async showOpenDialog() {
     const files = electron.remote.dialog.showOpenDialog({
       filters: [{ name: 'osu! chart', extensions: ['osu'] }],
@@ -45,16 +60,11 @@ export class App {
   private async loadChart(path: string) {
     this.chart = await Chart.loadFromFile(path)
     store.set('lastBeatmap', path)
-    this.renderChart()
+    this.render()
     console.log(this.chart.metadata)
   }
 
-  private handleMouseWheel(event: WheelEvent) {
-    this.scrollOffset -= event.deltaY / 100
-    this.renderChart()
-  }
-
-  private renderChart() {
+  private render() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
     this.context.save()
@@ -122,10 +132,5 @@ export class App {
     const text = `${Artist} - ${Title}`
 
     this.context.fillText(text, 10, 10)
-  }
-
-  private sizeViewToWindow() {
-    this.canvas.width = window.innerWidth
-    this.canvas.height = window.innerHeight
   }
 }
