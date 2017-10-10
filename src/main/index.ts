@@ -29,6 +29,13 @@ function createAppMenu() {
             win.webContents.send('open-dialog')
           },
         },
+        { type: 'separator' },
+        {
+          label: 'Exit',
+          click: () => {
+            app.quit()
+          },
+        },
       ],
     },
   ])
