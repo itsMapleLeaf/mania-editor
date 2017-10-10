@@ -1,11 +1,10 @@
 import * as fs from 'fs'
 import { promisify } from 'util'
 
-type HitObject = {
-  x: number
-  y: number
+type Note = {
   time: number
-  objectType: HitObjectType
+  column: number
+  length: number
 }
 
 type HitObjectType = 'tap' | 'long-note' | 'unknown'
@@ -27,8 +26,8 @@ const sectionPattern = /\[([a-z]+)\]/i
 
 /** A representation of an .osu file */
 export class Chart {
-  hitObjects = [] as HitObject[]
   timingPoints = [] as TimingPoint[]
+  notes = [] as Note[]
 
   static async loadFromFile(path: string) {
     const content = (await readFile(path)).toString()
@@ -76,11 +75,14 @@ export class Chart {
         if ((objectTypeMask & bitTap) > 0) objectType = 'tap'
         if ((objectTypeMask & bitLongNote) > 0) objectType = 'long-note'
 
-        chart.hitObjects.push({
-          x: +values[0],
-          y: +values[1],
-          time: +values[2],
-          objectType,
+        const column = (+values[0] - 64) / 128
+        const time = +values[2] / 1000
+        const length = 0 // TODO
+
+        chart.notes.push({
+          column,
+          time,
+          length,
         })
       }
     })
