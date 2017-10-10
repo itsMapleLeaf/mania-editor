@@ -108,6 +108,14 @@ export class Chart {
 
       const time = +values[2] / 1000
 
+      // HACK: values[5] is a slider point, which looks something like this:
+      // 1234:0:0:0:
+      // here we use parseInt to get the first number,
+      // since parseInt stops at the first non-digit
+      // if it's a tap note, the number is 0
+      // if it's a long note, the number is the lift time
+      // it would probably be better to have a proper slider point parser
+      // so this is less ambiguous
       const holdEnd = parseInt(values[5], 10) / 1000
       const holdLength = holdEnd === 0 ? 0 : holdEnd - time
 
