@@ -26,7 +26,7 @@ export class App {
   }
 
   init() {
-    const lastBeatmap = store.get('lastBeatmap')
+    const lastBeatmap = store.lastBeatmap
     if (lastBeatmap) {
       this.loadChart(lastBeatmap)
     } else {
@@ -59,7 +59,7 @@ export class App {
 
   private async loadChart(path: string) {
     this.chart = await Chart.loadFromFile(path)
-    store.set('lastBeatmap', path)
+    store.lastBeatmap = path
     this.render()
     console.log(this.chart.metadata)
   }
