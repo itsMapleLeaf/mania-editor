@@ -30,19 +30,36 @@ export class App {
 
   async loadChart(path: string) {
     this.chart = await Chart.loadFromFile(path)
-    this.renderChart()
+    this.renderNotes()
+    this.renderTimingPoints()
   }
 
-  private renderChart() {
+  private renderNotes() {
     this.chart.notes.forEach(note => {
       const width = 64
       const height = 32
       const x = note.column * width
       const y =
         note.time * noteSpacing * scrollSpeed * scrollDirection +
-        this.canvas.height
+        this.canvas.height -
+        height
 
       this.context.fillStyle = 'white'
+      this.context.fillRect(x, y, width, height)
+    })
+  }
+
+  private renderTimingPoints() {
+    this.chart.timingPoints.forEach(tp => {
+      const width = 64 * 4
+      const height = 2
+      const x = 0
+      const y =
+        tp.offsetSeconds * noteSpacing * scrollSpeed * scrollDirection +
+        this.canvas.height
+      const color = tp.isInherited ? 'green' : 'red'
+
+      this.context.fillStyle = color
       this.context.fillRect(x, y, width, height)
     })
   }
