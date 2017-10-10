@@ -44,7 +44,7 @@ const baseConfig: webpack.Configuration = {
 }
 
 const mainConfig = merge(baseConfig, {
-  entry: resolve(sourceFolder, 'main/index'),
+  entry: resolve(sourceFolder, 'main'),
   output: {
     filename: 'main.bundle.js',
   },
@@ -52,7 +52,7 @@ const mainConfig = merge(baseConfig, {
 })
 
 const rendererConfig = merge(baseConfig, {
-  entry: resolve(sourceFolder, 'renderer/index'),
+  entry: resolve(sourceFolder, 'renderer'),
   output: {
     filename: 'renderer.bundle.js',
   },
