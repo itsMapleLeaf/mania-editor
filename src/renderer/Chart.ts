@@ -26,11 +26,13 @@ const readFile = promisify(fs.readFile)
 const endLinePattern = /[\r\n]+/
 const sectionPattern = /\[([a-z]+)\]/i
 const commaPattern = /\s*,\s*/
+const keyValuePattern = /([a-z]+)\s*:\s*(.*)/i
 
 /** A representation of an .osu file */
 export class Chart {
   timingPoints = [] as TimingPoint[]
   notes = [] as Note[]
+  metadata = {} as any
 
   static async loadFromFile(path: string) {
     const content = (await readFile(path)).toString()
@@ -47,7 +49,9 @@ export class Chart {
     lines.forEach(line => {
       const sectionMatch = line.match(sectionPattern)
       if (sectionMatch) {
-        currentSection = sectionMatch[1]
+        const section = sectionMatch[1]
+        currentSection = section
+        chart.metadata[section] = {}
         return
       }
 
@@ -75,9 +79,7 @@ export class Chart {
           volume: values[5],
           isKiai: values[7] === 1,
         })
-      }
-
-      if (currentSection === 'HitObjects') {
+      } else if (currentSection === 'HitObjects') {
         const values = line.split(commaPattern)
 
         const bitTap = 0b00000001
@@ -98,6 +100,12 @@ export class Chart {
           time,
           length,
         })
+      } else {
+        const keyValueMatch = line.match(keyValuePattern)
+        if (keyValueMatch) {
+          const [, key, value] = keyValueMatch
+          chart.metadata[currentSection][key] = value
+        }
       }
     })
 
