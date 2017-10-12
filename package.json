@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "watch": "ts-node scripts/watch",
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "ts-node scripts/dev"
   },
   "dependencies": {
     "awesome-typescript-loader": "^3.2.3",
