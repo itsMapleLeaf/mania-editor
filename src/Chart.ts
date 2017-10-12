@@ -75,9 +75,9 @@ export class Chart {
 
     const keyCount = +chart.metadata.Difficulty.CircleSize
 
-    timingLines.forEach(line => {
+    timingLines.forEach((line, index) => {
       const values = line.split(commaPattern).map(Number)
-      const lastTimingPoint = chart.timingPoints[chart.timingPoints.length - 1]
+      const lastTimingPoint = chart.timingPoints[index - 1]
 
       const isInherited = values[6] === 0
 
