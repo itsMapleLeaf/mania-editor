@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -10,16 +14,19 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "electron": "^8.0.0",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
     "react-scripts": "3.3.1",
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev:server": "react-scripts start",
+    "dev:desktop": "nodemon --exec \"electron desktop/main.js --dev\" --watch desktop --ext js",
+    "dev": "npm-run-all --parallel --print-label dev:*",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "electron desktop/main.js",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
