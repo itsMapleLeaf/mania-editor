@@ -7,6 +7,7 @@
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
+    "@craco/craco": "^5.6.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -21,12 +22,12 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "dev:server": "react-scripts start",
+    "dev:server": "craco start",
     "dev:desktop": "nodemon --exec \"electron desktop/main.js --dev\" --watch desktop --ext js",
     "dev": "npm-run-all --parallel --print-label dev:*",
-    "build": "react-scripts build",
+    "build": "craco build",
     "start": "electron desktop/main.js",
-    "test": "react-scripts test"
+    "test": "craco test"
   },
   "eslintConfig": {
     "extends": "react-app"

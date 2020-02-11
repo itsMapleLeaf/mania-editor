@@ -14,11 +14,15 @@ app.allowRendererProcessReuse = true
 
 app.on("ready", () => {
   win = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+    },
     // todo?
   })
 
   if (process.argv.includes("--dev")) {
     win.loadURL(devServerUrl).catch(console.error)
+    win.webContents.openDevTools()
   } else {
     win.loadFile(join(buildFolder, "index.html")).catch(console.error)
   }
