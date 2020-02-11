@@ -1,17 +1,12 @@
 import { remote } from "electron"
 import React, { useState } from "react"
 
-function App() {
+export default function App() {
   const [content, setContent] = useState<string>()
 
   const showOpenDialog = () => {
-    remote.dialog
-      .showOpenDialog({ properties: ["openFile"] })
-      .then((result) => {
-        const [filePath] = result.filePaths
-        return remote.require("fs").promises.readFile(filePath, "utf8")
-      })
-      .then(setContent)
+    loadOsuFile()
+      .then((content) => content && setContent(content))
       .catch((error) => alert(error?.message || String(error)))
   }
 
@@ -22,4 +17,13 @@ function App() {
   )
 }
 
-export default App
+async function loadOsuFile(): Promise<string | undefined> {
+  const result = await remote.dialog.showOpenDialog({
+    properties: ["openFile"],
+    filters: [{ name: "osu! Chart", extensions: ["osu"] }],
+  })
+  if (result.canceled) return
+
+  const [filePath] = result.filePaths
+  return remote.require("fs").promises.readFile(filePath, "utf8")
+}
