@@ -1,7 +1,6 @@
 // @ts-check
-const { app, BrowserWindow, session } = require("electron")
+const { app, BrowserWindow } = require("electron")
 const { join } = require("path")
-const { watch } = require("fs")
 
 const projectRoot = join(__dirname, "..")
 const buildFolder = join(projectRoot, "build")
