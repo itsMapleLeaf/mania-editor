@@ -24,7 +24,10 @@ export const len = (units: LengthUnit) =>
 // layout
 export const w = (units: LengthUnit) => css({ width: len(units) })
 export const h = (units: LengthUnit) => css({ height: len(units) })
-export const wh = (units: LengthUnit) => [w(units), h(units)]
+export const size = (units: LengthUnit) => [w(units), h(units)]
+export const maxW = (units: LengthUnit) => css({ maxWidth: len(units) })
+export const maxH = (units: LengthUnit) => css({ maxHeight: len(units) })
+export const maxSize = (units: LengthUnit) => [maxW(units), maxH(units)]
 
 export const p = (units: number) => css({ padding: `${units * 0.25}rem` })
 export const pt = (units: number) => css({ paddingTop: `${units * 0.25}rem` })

@@ -5,11 +5,12 @@ import {
   flexCenter,
   flexColumn,
   h,
-  len,
+  maxH,
+  maxW,
+  size,
   themeBgColor,
   themeShadow,
   w,
-  wh,
 } from "../ui/style"
 
 export default function App() {
@@ -28,8 +29,9 @@ export default function App() {
           flexColumn,
           flexCenter,
           themeBgColor(0),
-          wh("full"),
-          { maxWidth: len(70), maxHeight: len(100) },
+          size("full"),
+          maxW(70),
+          maxH(100),
           themeShadow,
         ]}
       >
