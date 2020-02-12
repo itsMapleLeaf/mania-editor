@@ -2,18 +2,26 @@
   "name": "mania-editor",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {},
+  "scripts": {
+    "dev:server": "craco start",
+    "dev:desktop": "nodemon --exec \"electron desktop/main.js --dev\" --watch desktop --ext js",
+    "dev": "npm-run-all --parallel --print-label dev:*",
+    "build": "craco build",
+    "start": "electron desktop/main.js",
+    "test": "craco test",
+    "typecheck": "tsc --noEmit"
+  },
   "devDependencies": {
     "@craco/craco": "^5.6.3",
     "@emotion/babel-preset-css-prop": "^11.0.0-next.10",
     "@emotion/react": "^11.0.0-next.10",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^8.1.0",
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.1",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
     "electron": "^8.0.0",
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",
@@ -21,15 +29,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.1",
-    "typescript": "~3.7.2"
-  },
-  "scripts": {
-    "dev:server": "craco start",
-    "dev:desktop": "nodemon --exec \"electron desktop/main.js --dev\" --watch desktop --ext js",
-    "dev": "npm-run-all --parallel --print-label dev:*",
-    "build": "craco build",
-    "start": "electron desktop/main.js",
-    "test": "craco test"
+    "typescript": "~3.7.5"
   },
   "eslintConfig": {
     "extends": "react-app"
