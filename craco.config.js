@@ -4,4 +4,7 @@ module.exports = {
       target: "electron-renderer",
     },
   },
+  babel: {
+    presets: ["@emotion/css-prop"],
+  },
 }
