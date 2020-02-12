@@ -1,7 +1,7 @@
 import {} from "@emotion/react"
 import { darken, lighten, shade } from "polished"
 
-type ColorPalette = { 0: string; 1: string; 2: string; 3: string }
+type ColorPalette = Record<0 | 1 | 2 | 3, string>
 
 export type AppTheme = {
   colors: {
@@ -31,13 +31,18 @@ const primaryColors: ColorPalette = [
 
 export const darkTheme: AppTheme = {
   colors: {
-    background: [charcoal, charcoal, charcoal, charcoal],
+    background: [
+      charcoal,
+      shade(0.2, charcoal),
+      shade(0.4, charcoal),
+      shade(0.6, charcoal),
+    ],
     primary: primaryColors,
     primaryText: clouds,
     text: clouds,
   },
   shadow: {
-    normal: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+    normal: "0px 2px 6px rgba(0, 0, 0, 0.25)",
   },
 }
 
@@ -45,7 +50,12 @@ export const lightTheme: AppTheme = {
   ...darkTheme,
   colors: {
     ...darkTheme.colors,
-    background: [clouds, clouds, clouds, clouds],
+    background: [
+      clouds,
+      shade(0.1, clouds),
+      shade(0.2, clouds),
+      shade(0.3, clouds),
+    ],
     text: darken(0.2, charcoal),
   },
   shadow: {

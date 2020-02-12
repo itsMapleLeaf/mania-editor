@@ -10,7 +10,7 @@ export const reset = (theme: AppTheme) => css`
   }
 
   :root {
-    ${themeBgColor(0)(theme)};
+    ${themeBgColor(3)(theme)};
     ${themeTextColor(theme)};
     font: 15px Roboto, sans-serif;
     word-break: break-word;

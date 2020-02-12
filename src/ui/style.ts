@@ -14,7 +14,7 @@ type LengthUnit = number | "full" | StringAutocompleteHack
 
 type StringAutocompleteHack = string & { __autocompleteHack?: never }
 
-const len = (units: LengthUnit) =>
+export const len = (units: LengthUnit) =>
   typeof units === "number"
     ? `${units * 0.25}rem`
     : units === "full"
@@ -69,10 +69,11 @@ export const themeTextColor = (theme: AppTheme) =>
 
 export const themePrimaryBgColor = (key: PrimaryColorKey) => (
   theme: AppTheme,
-) => css({ backgroundColor: theme.colors.primary[key] })
-
-export const themePrimaryTextColor = (theme: AppTheme) =>
-  css({ color: theme.colors.primaryText })
+) =>
+  css({
+    backgroundColor: theme.colors.primary[key],
+    color: theme.colors.primaryText,
+  })
 
 // effects
 export const transition = (properties: string) =>
