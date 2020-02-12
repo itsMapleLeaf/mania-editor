@@ -1,9 +1,9 @@
 import { Global, ThemeProvider } from "@emotion/react"
 import React from "react"
 import ReactDOM from "react-dom"
-import App from "./App"
-import { reset } from "./reset"
-import { darkTheme } from "./theme"
+import App from "./app/App"
+import { reset } from "./ui/reset"
+import { darkTheme } from "./ui/theme"
 
 ReactDOM.render(
   <ThemeProvider theme={darkTheme}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { button } from "./components"
-import { loadOsuFile } from "./loadOsuFile"
-import { flexCenter, flexColumn, h, w } from "./style"
+import { loadOsuFile } from "../osu/loadOsuFile"
+import { button } from "../ui/components"
+import { flexCenter, flexColumn, h, w } from "../ui/style"
 
 export default function App() {
   const [content, setContent] = useState<string>()
