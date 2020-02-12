@@ -1,6 +1,7 @@
 import React, { useState } from "react"
+import { button } from "./components"
 import { loadOsuFile } from "./loadOsuFile"
-import { fixedCover, p, themeBgColor, themeTextColor } from "./style"
+import { flexCenter, flexColumn, h, w } from "./style"
 
 export default function App() {
   const [content, setContent] = useState<string>()
@@ -12,8 +13,14 @@ export default function App() {
   }
 
   return (
-    <main css={[fixedCover, p(4), themeTextColor, themeBgColor]}>
-      {content ?? <button onClick={showOpenDialog}>load .osu file</button>}
+    <main css={[flexColumn, flexCenter, w("100vw"), h("100vh")]}>
+      <button type="button" css={button} onClick={showOpenDialog}>
+        load .osu file{" "}
+        <span role="img" aria-label="turk">
+          🦃
+        </span>
+      </button>
+      {content}
     </main>
   )
 }
