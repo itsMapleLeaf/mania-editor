@@ -14,12 +14,11 @@ type LengthUnit = number | "full" | StringAutocompleteHack
 
 type StringAutocompleteHack = string & { __autocompleteHack?: never }
 
-export const len = (units: LengthUnit) =>
-  typeof units === "number"
-    ? `${units * 0.25}rem`
-    : units === "full"
-    ? "100%"
-    : units
+export const len = (units: LengthUnit) => {
+  if (typeof units === "number") return `${units * 0.25}rem`
+  if (units === "full") return "100%"
+  return units
+}
 
 // layout
 export const w = (units: LengthUnit) => css({ width: len(units) })
