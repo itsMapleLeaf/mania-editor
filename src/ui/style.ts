@@ -58,6 +58,11 @@ export const absolute = css({ position: "absolute" })
 export const relative = css({ position: "relative" })
 export const fixed = css({ position: "fixed" })
 
+export const left = (units: LengthUnit) => css({ left: len(units) })
+export const right = (units: LengthUnit) => css({ right: len(units) })
+export const top = (units: LengthUnit) => css({ top: len(units) })
+export const bottom = (units: LengthUnit) => css({ bottom: len(units) })
+
 export const absoluteFill = [absolute, size("full")]
 
 export const fixedCover = css({
