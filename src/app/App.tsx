@@ -1,15 +1,15 @@
+import { css } from "@emotion/react"
 import React, { useState } from "react"
 import { loadOsuFile } from "../osu/loadOsuFile"
+import background from "../ui/bg.png"
 import { button } from "../ui/components"
 import {
+  absoluteFill,
   flexCenter,
   flexColumn,
   h,
-  maxH,
-  maxW,
-  size,
-  themeBgColor,
-  themeShadow,
+  opacity,
+  relative,
   w,
 } from "../ui/style"
 
@@ -22,27 +22,18 @@ export default function App() {
       .catch((error) => alert(error?.message || String(error)))
   }
 
+  const backgroundStyle = css({
+    backgroundImage: `url(${background})`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+  })
+
   return (
-    <main css={[flexColumn, flexCenter, w("100vw"), h("100vh")]}>
-      <div
-        css={[
-          flexColumn,
-          flexCenter,
-          themeBgColor(0),
-          size("full"),
-          maxW(70),
-          maxH(100),
-          themeShadow,
-        ]}
-      >
-        <button type="button" css={button} onClick={showOpenDialog}>
-          load .osu file{" "}
-          <span role="img" aria-label="turk">
-            🦃
-          </span>
-        </button>
+    <main css={[w("100vw"), h("100vh"), relative]}>
+      <div css={[absoluteFill, backgroundStyle, opacity(0.3)]}></div>
+      <div css={[absoluteFill, flexColumn, flexCenter]}>
+        <button css={button}>test</button>
       </div>
-      {content}
     </main>
   )
 }
