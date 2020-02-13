@@ -1,5 +1,5 @@
 // @ts-check
-const { app, BrowserWindow } = require("electron")
+const { app, BrowserWindow, Menu } = require("electron")
 const { join } = require("path")
 
 const projectRoot = join(__dirname, "..")
@@ -12,6 +12,8 @@ let win = null
 app.allowRendererProcessReuse = true
 
 app.on("ready", () => {
+  Menu.setApplicationMenu(null)
+
   win = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
