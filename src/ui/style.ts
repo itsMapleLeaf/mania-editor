@@ -54,6 +54,12 @@ export const justifyContent = (justifyContent: FlexJustify) =>
   css({ justifyContent })
 export const flexCenter = [alignItems("center"), justifyContent("center")]
 
+export const absolute = css({ position: "absolute" })
+export const relative = css({ position: "relative" })
+export const fixed = css({ position: "fixed" })
+
+export const absoluteFill = [absolute, size("full")]
+
 export const fixedCover = css({
   position: "fixed",
   left: 0,
@@ -77,7 +83,12 @@ export const themePrimaryBgColor = (key: PrimaryColorKey) => (
     color: theme.colors.primaryText,
   })
 
+export const semiBlackBg = (opacity: number) =>
+  css({ background: `rgba(0, 0, 0, ${opacity})` })
+
 // effects
+export const opacity = (opacity: number) => css({ opacity })
+
 export const transition = (properties: string) =>
   css({ transitionDuration: "0.2s", transitionProperty: properties })
 
