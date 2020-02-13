@@ -54,18 +54,18 @@ const trackPixelsPerSecond = 30
 
 const noteStyle = [w(noteWidth), h(7), { backgroundColor: "white" }]
 
+const trackShadeStyle = [
+  semiBlackBg(0.5),
+  w(noteWidth * 4),
+  h("full"),
+  absolute,
+  left(20),
+]
+
 function Editor(props: ComponentPropsWithoutRef<"div">) {
   return (
     <div {...props}>
-      <div
-        css={[
-          semiBlackBg(0.5),
-          w(noteWidth * 4),
-          h("full"),
-          absolute,
-          left(20),
-        ]}
-      >
+      <div css={trackShadeStyle}>
         {notes.map((note) => (
           <div
             key={note.key}
