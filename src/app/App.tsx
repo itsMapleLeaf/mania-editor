@@ -1,6 +1,5 @@
 import { css } from "@emotion/react"
-import React, { ComponentPropsWithoutRef, useState } from "react"
-import { loadOsuFile } from "../osu/loadOsuFile"
+import React, { ComponentPropsWithoutRef } from "react"
 import background from "../ui/bg.png"
 import {
   absolute,
@@ -15,13 +14,13 @@ import {
 } from "../ui/style"
 
 export default function App() {
-  const [content, setContent] = useState<string>()
+  // const [content, setContent] = useState<string>()
 
-  const showOpenDialog = () => {
-    loadOsuFile()
-      .then((content) => content && setContent(content))
-      .catch((error) => alert(error?.message || String(error)))
-  }
+  // const showOpenDialog = () => {
+  //   loadOsuFile()
+  //     .then((content) => content && setContent(content))
+  //     .catch((error) => alert(error?.message || String(error)))
+  // }
 
   const backgroundStyle = css({
     backgroundImage: `url(${background})`,
