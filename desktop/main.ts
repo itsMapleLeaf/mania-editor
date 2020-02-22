@@ -1,13 +1,11 @@
-// @ts-check
-const { app, BrowserWindow, Menu } = require("electron")
-const { join } = require("path")
+import { app, BrowserWindow, Menu } from "electron"
+import { join } from "path"
 
 const projectRoot = join(__dirname, "..")
 const buildFolder = join(projectRoot, "build")
 const devServerUrl = "http://localhost:3000"
 
-/** @type {BrowserWindow | null} */
-let win = null
+let win: BrowserWindow | undefined
 
 app.allowRendererProcessReuse = true
 
@@ -18,10 +16,9 @@ app.on("ready", () => {
     webPreferences: {
       nodeIntegration: true,
     },
-    // todo?
   })
 
-  if (process.argv.includes("--dev")) {
+  if (process.env.NODE_ENV === "development") {
     win.loadURL(devServerUrl).catch(console.error)
     win.webContents.openDevTools()
   } else {
@@ -30,5 +27,5 @@ app.on("ready", () => {
 })
 
 app.on("will-quit", () => {
-  win = null
+  win = undefined
 })
