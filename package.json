@@ -11,10 +11,16 @@
     "test": "craco test",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@emotion/react": "^11.0.0-next.10",
+    "@inlet/react-pixi": "^1.2.3",
+    "pixi.js": "^5.2.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
   "devDependencies": {
     "@craco/craco": "^5.6.3",
     "@emotion/babel-preset-css-prop": "^11.0.0-next.10",
-    "@emotion/react": "^11.0.0-next.10",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.1.0",
@@ -27,8 +33,6 @@
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",
     "polished": "^3.4.4",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
     "react-scripts": "3.3.1",
     "ts-node": "^8.6.2",
     "typescript": "~3.7.5"
